@@ -1,0 +1,21 @@
+REPORT zlistar_clientes.
+
+TABLES: kna1.
+
+DATA: lt_clientes TYPE TABLE OF kna1,
+      ls_cliente  TYPE kna1.
+
+SELECT-OPTIONS: s_kunnr FOR kna1-kunnr.
+
+START-OF-SELECTION.
+
+  SELECT * FROM kna1 INTO TABLE lt_clientes
+    WHERE kunnr IN s_kunnr.
+
+  IF lt_clientes IS NOT INITIAL.
+    LOOP AT lt_clientes INTO ls_cliente.
+      WRITE: / ls_cliente-kunnr, ls_cliente-name1, ls_cliente-ort01.
+    ENDLOOP.
+  ELSE.
+    WRITE: 'No se encontraron clientes con esos criterios.'.
+  ENDIF.
